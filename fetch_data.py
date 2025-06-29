@@ -18,6 +18,10 @@ TARGET_STOCKS = ["NVDA", "MSFT"]
 
 #get the data to train my ML model
 def fetch_historical_data(symbol, years=3):
+    '''
+    here our goal is to grab the past three years worth of data from the alpaca 
+    api (as recent as the past 16 minutes due to subscription problems)
+    '''
     end_date = pd.Timestamp.now(tz="America/Chicago") - timedelta(minutes=16)
     start_date = end_date - pd.DateOffset(years=1)
     bars = api.get_bars(symbol, "1Min", start=start_date.isoformat(), end=end_date.isoformat()).df
@@ -26,5 +30,5 @@ def fetch_historical_data(symbol, years=3):
     return bars[["open", "high", "low", "close", "volume", "symbol"]]
 
 all_data = pd.concat([fetch_historical_data(stock) for stock in TARGET_STOCKS])
-
+pdb.set_trace()
 all_data.to_parquet('stock_data.parquet')
