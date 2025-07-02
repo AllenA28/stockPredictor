@@ -37,7 +37,7 @@ def calculate_features(stock_data):
         return group
     
     stock_data = stock_data.groupby('symbol', group_keys=False).apply(check_target)
-    return stock_data.drop(columns='max_future').dropna()
+    return stock_data.drop(columns='max_future')
 # Execute the functions
 featured_data = calculate_features(data)
 featured_data.to_parquet('featured_data.parquet')
